@@ -65,6 +65,7 @@
 
 "pip_package":[
     {"platform":"poster==0.8.1","install":"yes"},
+    {"platform":"openpyxl==2.4.9","install":"yes"},
     {"platform":"ansible==2.4.2.0","install":"yes"}
 ]
 }
