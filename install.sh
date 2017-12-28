@@ -359,7 +359,7 @@ install_every_pip()
         nums="1 2 3"
         for num in ${nums}
         do
-            sudo pip install $packss > $tmp_log 2>&1
+            sudo LC_ALL=C pip install $packss > $tmp_log 2>&1
             if [ $? -ne 0 ]
             then
                 if [ $num -eq 3 ]
