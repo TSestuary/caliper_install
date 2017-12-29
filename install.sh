@@ -183,28 +183,20 @@ version_gt()
 
 ## comparison of two version numbers
 # Usage: 
-#       1. get the new version number, then the next step
-#    	2. is it installed: not installed, then install, otherwise compare versions
-#	3. compare versions: get the old version number, the new version higher than the old version to upgrade, otherwise output that new version is low to the user and then exit
-#	4. [0:exit;1:install;2:update]
+#    	1. is it exist /opt/Caliper: if not, then install, otherwise compare versions
+#	2. compare versions: get the old version number, the new version higher than the old version to upgrade, otherwise then install
+#	3. flag [1:install;2:update]
 check_version()
 {
-   flag=0
-   new_version=`cat /tmp/Caliper/caliper/common.py | grep -owP "VERSION=\K\S+" | sed 's/\"//g'`
-   caliper_exist=`which caliper`
-   if [ -z $caliper_exist ]
-   then
-       flag=1
-   else
-#       old_version=`caliper -v`
-       old_version=`cat /opt/Caliper/caliper/common.py | grep -owP "VERSION=\K\S+" | sed 's/\"//g'`
-       if version_gt $new_version $old_version
-       then
-           flag=2
-       fi
-   fi
+    if [ -d  "/opt/Caliper" ]
+    then 
+        old_version=`cat /opt/Caliper/caliper/common.py | grep -owP "VERSION=\K\S+" | sed 's/\"//g'`
+        if version_gt $new_version $old_version
+        then 
+            flag=2
+        fi
+    fi
 }
-
 
 ## output the start time of the installation to the log file
 # Usage:
@@ -431,8 +423,8 @@ install_caliper()
 #	5. checkout soft information and output information to the log file [0 3]
 #	6. checkout hard information and output information to the log file [3 7]
 #	7. checkout net information and output information to the log file [7 10]
-#	8. checkout version [ 0:exit 1:install 2:update ]
-#	9. [ 0:exit ] show exit information then exit
+#	8. checkout version
+#       9. flag [ 1:install 2:update ]
 #	10.[ 1:install ] show install jq [10 15]
 #	11.[ 1:install ] show install date 
 #	12.[ 1:install ] show install dpk [15 60]
@@ -506,15 +498,12 @@ main()
  
 ## 8
 
-    flag=0
+    flag=1
     check_version
 
 ## 9
 
     case $flag in
-        0)
-    show_message 0 " The new version is lower than the old version then exit ..." 7 65 
-    ;;
 
 ## 10
 
@@ -561,6 +550,9 @@ main()
 
     if [ ! -d "/opt/Caliper" ]
     then
+        sudo mv /tmp/Caliper /opt
+    else 
+        sudo rm -rf /opt/Caliper
         sudo mv /tmp/Caliper /opt
     fi
     exit 0
