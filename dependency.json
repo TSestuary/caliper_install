@@ -13,7 +13,6 @@
     {"platform":"procinfo","install":"yes"},
     {"platform":"bc","install":"yes"},
     {"platform":"zip","install":"yes"},
-    {"platform":"libc6","install":"yes"},
     {"platform":"libstdc++6","install":"yes"},
     {"platform":"python-dev","install":"yes"},
     {"platform":"python-pip","install":"yes"},
