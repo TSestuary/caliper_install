@@ -73,8 +73,8 @@ check_hardinfo()
 
 #1.find and save the system arch and processor manufacturer and processor version
     system_arch=`uname -m`
-    system_processor_manufacturer=`sudo dmidecode --string processor-manufacturer`
-    system_processor_version=`sudo dmidecode --string processor-version`
+    system_processor_manufacturer=`sudo dmidecode --string processor-manufacturer | uniq`
+    system_processor_version=`sudo dmidecode --string processor-version | uniq`
 
 #2.find the above information in the configuration file, if information is the same
     inProcessor=0
