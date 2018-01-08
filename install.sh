@@ -192,7 +192,7 @@ main()
         2)
     	    write_log "bc pkg install failed" $log
             show_message "install bc failed. Exit install" 7 45 
-    	    exit 10
+    	    exit 11
     	    ;;
         esac
     } | whiptail --title "Caliper installation" --gauge "bc" 7 55 13
