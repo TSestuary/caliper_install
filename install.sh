@@ -131,7 +131,7 @@ main()
     if [ $? -eq 0 ]
     then
 	show_message "Fail! Newer or same version of caliper already installed. " 9 50
-	#exit
+	exit
     fi
 
 ## 9. write install date
@@ -177,6 +177,25 @@ main()
     	    ;;
         esac
     } | whiptail --title "Caliper installation" --gauge "jq" 7 55 12
+  
+    write_log "[install_bc]" $log
+    {
+        install_pkg bc $pkg_type
+        ret=$?
+        case $ret in
+        0)
+    	    write_log "bc pkg install success" $log
+    	    ;;
+        1)
+    	    write_log "bc pkg install already" $log
+    	    ;;
+        2)
+    	    write_log "bc pkg install failed" $log
+            show_message "install bc failed. Exit install" 7 45 
+    	    exit 10
+    	    ;;
+        esac
+    } | whiptail --title "Caliper installation" --gauge "bc" 7 55 13
 
 ## 11. install dpkg or rpm packages
 
