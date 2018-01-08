@@ -7,21 +7,18 @@
     {"platform":"gcc","install":"yes"},
     {"platform":"g++","install":"yes"},
     {"platform":"autogen","install":"yes"},
-    {"platform":"libtool","install":"yes"},
     {"platform":"lshw","install":"yes"},
     {"platform":"dmidecode","install":"yes"},
     {"platform":"procinfo","install":"yes"},
     {"platform":"bc","install":"yes"},
     {"platform":"zip","install":"yes"},
-    {"platform":"libstdc++6","install":"yes"},
     {"platform":"python-dev","install":"yes"},
     {"platform":"python-pip","install":"yes"},
     {"platform":"automake","install":"yes"},
     {"platform":"autoconf","install":"yes"},
     {"platform":"make","install":"yes"},
     {"platform":"openssh-server","install":"yes"},
-    {"platform":"python-numpy","install":"yes"},
-    {"platform":"pkg-config","install":"yes"}
+    {"platform":"python-numpy","install":"yes"}
 ],
 
 "centos_dpk_package":[
@@ -44,8 +41,7 @@
     {"platform":"autoconf","install":"yes"},
     {"platform":"make","install":"yes"},
     {"platform":"openssh-server","install":"yes"},
-    {"platform":"python-numpy","install":"yes"},
-    {"platform":"pkg-config","install":"yes"}
+    {"platform":"python-numpy","install":"yes"}
 ],
 
 "redhat_dpk_package":[
@@ -68,8 +64,7 @@
     {"platform":"autoconf","install":"yes"},
     {"platform":"make","install":"yes"},
     {"platform":"openssh-server","install":"yes"},
-    {"platform":"python-numpy","install":"yes"},
-    {"platform":"pkg-config","install":"yes"}
+    {"platform":"python-numpy","install":"yes"}
 ],
 
 "sles_dpk_package":[
@@ -92,8 +87,7 @@
     {"platform":"autoconf","install":"yes"},
     {"platform":"make","install":"yes"},
     {"platform":"openssh-server","install":"yes"},
-    {"platform":"python-numpy","install":"yes"},
-    {"platform":"pkg-config","install":"yes"}
+    {"platform":"python-numpy","install":"yes"}
 ],
 
 "pip_package":[

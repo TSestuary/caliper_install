@@ -221,7 +221,7 @@ install_pkg()
             nums="1 2 3"
             for num in ${nums}
             do
-                sudo yum install $1 -y > $tmp 2>&1
+                sudo yum install $1 -y > $tmp_log 2>&1
                 if [ $? -eq 0 ]
                 then
                     # install successed
@@ -323,7 +323,7 @@ install_pip()
         nums="1 2 3"
         for num in ${nums}
         do
-            sudo LC_ALL=C pip install $packss
+            sudo LC_ALL=C pip install $packss >/dev/null 2>&1
             if [ $? -eq 0 ]
             then
 		return 0
