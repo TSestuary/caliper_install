@@ -18,7 +18,9 @@
     {"platform":"autoconf","install":"yes"},
     {"platform":"make","install":"yes"},
     {"platform":"openssh-server","install":"yes"},
-    {"platform":"python-numpy","install":"yes"}
+    {"platform":"python-numpy","install":"yes"},
+    {"platform":"libssl-dev","install":"yes"},
+    {"platform":"libffi-dev","install":"yes"}
 ],
 
 "centos_dpk_package":[
@@ -41,7 +43,9 @@
     {"platform":"autoconf","install":"yes"},
     {"platform":"make","install":"yes"},
     {"platform":"openssh-server","install":"yes"},
-    {"platform":"python-numpy","install":"yes"}
+    {"platform":"python-numpy","install":"yes"},
+    {"platform":"libssl-dev","install":"yes"},
+    {"platform":"libffi-dev","install":"yes"}
 ],
 
 "redhat_dpk_package":[
@@ -64,7 +68,9 @@
     {"platform":"autoconf","install":"yes"},
     {"platform":"make","install":"yes"},
     {"platform":"openssh-server","install":"yes"},
-    {"platform":"python-numpy","install":"yes"}
+    {"platform":"python-numpy","install":"yes"},
+    {"platform":"libssl-dev","install":"yes"},
+    {"platform":"libffi-dev","install":"yes"}
 ],
 
 "sles_dpk_package":[
@@ -87,7 +93,9 @@
     {"platform":"autoconf","install":"yes"},
     {"platform":"make","install":"yes"},
     {"platform":"openssh-server","install":"yes"},
-    {"platform":"python-numpy","install":"yes"}
+    {"platform":"python-numpy","install":"yes"},
+    {"platform":"libssl-dev","install":"yes"},
+    {"platform":"libffi-dev","install":"yes"}
 ],
 
 "pip_package":[
