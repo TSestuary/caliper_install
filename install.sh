@@ -214,15 +214,17 @@ main()
     	install_caliper
     } | whiptail --title "Caliper installation" --gauge "caliper" 7 55 90
 
-## 14. mv source code to /opt
+## 14. copy uninstall.sh to $HOME/caliper_output
 
     {
-    if [ -d "/opt/Caliper" ]
+    if [ ! -f $HOME/caliper_output/uninstall.sh ]
     then
-        sudo rm -rf /opt/Caliper
+        sudo cp /tmp/Caliper/uninstall.sh $HOME/caliper_output/
+    else 
+        sudo rm $HOME/caliper_output/uninstall.sh
+        sudo cp /tmp/Caliper/uninstall.sh $HOME/caliper_output/
     fi
-    sudo cp -ra /tmp/Caliper /opt
-    } | whiptail --title "Caliper installation" --gauge "move source code to /opt" 7 55 95
+    } | whiptail --title "Caliper installation" --gauge "copy uninstall.sh to $HOME/caliper_output" 7 55 95
 
 ## 15. finish
     show_message "install caliper successed." 9 50

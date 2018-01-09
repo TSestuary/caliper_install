@@ -145,14 +145,13 @@ main()
     	uninstall_pkg
     } | whiptail --title "Uninstall" --gauge "Uninstall dpkg/rpm packages" 7 55 70
 
-## 8. remove output and source
+## 8. remove output 
 
-    whiptail --yesno "Please choose remove ~/caliper_output and /opt/Caliper" --defaultno 7 58
+    whiptail --yesno "Please choose remove ~/caliper_output" --defaultno 7 58
     choose_status=$?
     if [ $choose_status -eq 0 ]
     then
         rm -rf ~/caliper_output
-        sudo rm -rf /opt/Caliper
     fi
 
 ## 9. finish
