@@ -62,7 +62,7 @@
     {"platform":"openssh-server","install":"yes"},
     {"platform":"numpy","install":"yes"},
     {"platform":"openssl-devel","install":"yes"},
-    {"platform":"libffi-dev","install":"yes"}
+    {"platform":"libffi-devel","install":"yes"}
 ],
 
 "sles_dpk_package":[
