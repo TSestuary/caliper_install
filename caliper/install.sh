@@ -20,11 +20,32 @@ main()
 	exit 0
     fi
 
+## check whiptail
     which whiptail
     ret=$?
     if [ $ret -ne 0 ]
     then 
-        echo "Please install whiptail and this program exiting!"
+        echo "Install whiptail..."
+
+        system_os=`cat /etc/os-release | grep -owP 'ID=\K\S+' | sed 's/"//g'`
+        case $system_os in
+        ubuntu)
+            sudo apt install -y whiptail
+            ;;
+        centos|rhel)
+            sudo yum install -y newt
+            ;;
+        sles)
+            sudo zypper --no-gpg-checks  install -y http://mirror.centos.org/altarch/7/os/aarch64/Packages/newt-0.52.15-4.el7.aarch64.rpm
+            ;;
+        esac
+    fi
+
+    which whiptail
+    ret=$?
+    if [ $ret -ne 0 ]
+    then 
+        echo "Please install whiptail first, then run this program again!"
         exit 0
     fi
 
