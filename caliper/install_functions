@@ -200,7 +200,7 @@ install_pkg()
             nums="1 2 3"
             for num in ${nums}
             do
-                sudo apt install $1 -y > $tmp_log 2>&1
+                sudo $3 install $1 -y > $tmp_log 2>&1
                 if [ $? -eq 0 ]
                 then
 		    # install successed
@@ -221,7 +221,13 @@ install_pkg()
             nums="1 2 3"
             for num in ${nums}
             do
-                sudo yum install $1 -y > $tmp_log 2>&1
+                if [ "x$3" = "xzypper" ]
+                then
+                    sudo $3 --non-interactive install $1 > $tmp_log 2>&1
+                else
+                    sudo $3 install $1 -y > $tmp_log 2>&1
+                fi 
+
                 if [ $? -eq 0 ]
                 then
                     # install successed
@@ -248,18 +254,22 @@ install_all_pkg()
     case $system_os in
     ubuntu)
     	pkg_type="dpk"
+        order="apt-get"
     	packs=`jq .ubuntu_dpk_package[].platform $depend_json | sed 's/\"//g'`
     	;;
     centos)
     	pkg_type="rpm"
+        order="yum"
     	packs=`jq .centos_dpk_package[].platform $depend_json | sed 's/\"//g'`
     	;;
-    redhat)
+    rhel)
     	pkg_type="rpm"
+        order="yum"
     	packs=`jq .redhat_dpk_package[].platform $depend_json | sed 's/\"//g'`
     	;;
     sles)
     	pkg_type="rpm"
+        order="zypper"
     	packs=`jq .sles_dpk_package[].platform $depend_json | sed 's/\"//g'`
     	;;
     esac
@@ -282,7 +292,7 @@ install_all_pkg()
         fi
 
 	{
-        install_pkg $pack $pkg_type
+        install_pkg $pack $pkg_type $order
         ret=$?
         case $ret in
         0)
@@ -306,6 +316,17 @@ install_all_pkg()
 
         i=`expr $i + 1`
     done
+
+    if [ $order == zypper ]
+    then
+        which pip
+        ret=$?
+        if [ ret -ne 0 ]
+        then
+            easy_install pip 
+	fi
+    fi  
+
 }
 
 ## install each pip package

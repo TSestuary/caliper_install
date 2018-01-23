@@ -20,6 +20,14 @@ main()
 	exit 0
     fi
 
+    which whiptail
+    ret=$?
+    if [ $ret -ne 0 ]
+    then 
+        echo "Please install whiptail and this program exiting!"
+        exit 0
+    fi
+
 ##	2. tar source code to /tmp
 
     tail -n+$ARCHIVE "$0" | tar xzm -C /tmp
@@ -142,26 +150,35 @@ main()
     case $system_os in
     ubuntu)
 	pkg_type="dpk"
+        order="apt-get"
 	;;
-    centos|redhat|sles)
+    centos|rhel)
 	pkg_type="rpm"
+        order="yum"
 	;;
+    sles)
+	pkg_type="rpm"
+        order="zypper"
+	;;  
     esac
 
     {
-    case $pkg_type in
-    dpk)
-	sudo apt-get update
+    case $order in
+    apt-get)
+	sudo apt-get update > /tmp/caliper_tmp.log 2>&1
 	;;
-    rpm)
-	sudo yum update
+    yum)
+	sudo yum update -y > /tmp/caliper_tmp.log 2>&1
+	;;
+    zypper)
+	sudo zypper update -y > /tmp/caliper_tmp.log 2>&1
 	;;
     esac
     } | whiptail --title "Caliper installation" --gauge "Updating software info " 7 55 10
 
     write_log "[install_jq]" $log
     {
-        install_pkg jq $pkg_type
+        install_pkg jq $pkg_type $order
         ret=$?
         case $ret in
         0)
@@ -180,7 +197,7 @@ main()
   
     write_log "[install_bc]" $log
     {
-        install_pkg bc $pkg_type
+        install_pkg bc $pkg_type $order
         ret=$?
         case $ret in
         0)
@@ -200,7 +217,17 @@ main()
 ## 11. install dpkg or rpm packages
 
     write_log "[install_pkg]" $log
-    install_all_pkg 
+    install_all_pkg
+
+#    if [ $order == zypper ]
+#    then
+#       which pip
+#        ret=$?
+#       if [ ret -ne 0 ]
+#        then
+#            easy_install pip 
+#	fi
+#    fi  
 
 ## 12. install pip packages
 
