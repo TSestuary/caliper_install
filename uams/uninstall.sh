@@ -65,6 +65,18 @@ uninstall_pkg()
 
     system_os=`cat /etc/os-release | grep -owP 'ID=\K\S+' | sed 's/"//g'`
 
+    case $system_os in
+    ubuntu)
+        order="apt-get"
+        ;;
+    centos|rhel)
+        order="yum"
+        ;;
+    sles)
+        order="zypper"
+        ;;
+    esac
+
     if [ $system_os = "ubuntu" ]
     then
         packs=`cat $HOME/uams_output/install*.log | grep "pkg install success" | uniq | sed 's/\ .*$//'`
@@ -89,7 +101,13 @@ uninstall_pkg()
         do
             for((num=1;num<=3;num++))
             do
-                sudo yum autoremove $pack -y > $tmp_log 2>&1
+                if [ "x$order" = "xzypper" ]
+                then
+                    sudo $order remove -y $pack > $tmp_log 2>&1
+                else
+                    sudo $order autoremove $pack -y > $tmp_log 2>&1
+                fi
+
                 if [ $? -eq 0 ]
                 then
                     echo "$pack pkg uninstall success" >> $log
