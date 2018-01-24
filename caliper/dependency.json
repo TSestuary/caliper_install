@@ -99,9 +99,9 @@
 "pip_package":[
     {"platform":"poster==0.8.1","install":"yes"},
     {"platform":"openpyxl==2.4.9","install":"yes"},
-    {"platform":"cryptography","install":"yes"},
-    {"platform":"setuptools","install":"yes"},
-    {"platform":"paramiko","install":"yes"},
+    {"platform":"cryptography==2.1.4","install":"yes"},
+    {"platform":"setuptools==38.4.0","install":"yes"},
+    {"platform":"paramiko==2.4.0","install":"yes"},
     {"platform":"ansible==2.4.2.0","install":"yes"}
 ]
 }
