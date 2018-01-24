@@ -205,7 +205,7 @@ install_pkg()
                 then
                     sudo debconf-set-selections /tmp/CaliperServer/mysql.debconf   
                 fi
-                sudo apt install $1 -y > $tmp_log 2>&1
+                sudo $3 install $1 -y > $tmp_log 2>&1
                 if [ $? -eq 0 ]
                 then
 		    # install successed
@@ -226,11 +226,13 @@ install_pkg()
             nums="1 2 3"
             for num in ${nums}
             do
-                if [ $1 = "mysql-server-5.7" ]
+	        if [ "x$3" = "xzypper" ]
                 then
-                    sudo debconf-set-selections /tmp/CaliperServer/mysql.debconf   
+                    sudo $3 install -y $1 > $tmp_log 2>&1
+                else
+                    sudo $3 install $1 -y > $tmp_log 2>&1
                 fi
-                sudo yum install $1 -y > $tmp_log 2>&1
+                
                 if [ $? -eq 0 ]
                 then
                     # install successed
@@ -257,18 +259,22 @@ install_all_pkg()
     case $system_os in
     ubuntu)
     	pkg_type="dpk"
+        order="apt-get"
     	packs=`jq .ubuntu_dpk_package[].platform $depend_json | sed 's/\"//g'`
     	;;
     centos)
     	pkg_type="rpm"
+        order="yum"
     	packs=`jq .centos_dpk_package[].platform $depend_json | sed 's/\"//g'`
     	;;
-    redhat)
+    rhel)
     	pkg_type="rpm"
+        order="yum"
     	packs=`jq .redhat_dpk_package[].platform $depend_json | sed 's/\"//g'`
     	;;
     sles)
     	pkg_type="rpm"
+        order="zypper"
     	packs=`jq .sles_dpk_package[].platform $depend_json | sed 's/\"//g'`
     	;;
     esac
@@ -291,7 +297,7 @@ install_all_pkg()
         fi
 
 	{
-        install_pkg $pack $pkg_type
+        install_pkg $pack $pkg_type $order
         ret=$?
         case $ret in
         0)
@@ -315,6 +321,16 @@ install_all_pkg()
 
         i=`expr $i + 1`
     done
+
+    if [ $order == zypper ]
+    then
+        which pip
+        ret=$?
+        if [ ret -ne 0 ]
+        then
+            easy_install pip
+        fi
+    fi
 }
 
 ## install each pip package
@@ -399,10 +415,23 @@ install_all_pip()
 config_mysql()
 {
     system_os=`cat /etc/os-release | grep -owP 'ID=\K\S+' | sed 's/"//g'`
-    if [ $system_os = "ubuntu" ]
-    then
-        sudo sh /opt/CaliperServer/config_mysql.sh   
-    fi
+    case $systemi_os in 
+    ubuntu)
+        sudo sh /opt/CaliperServer/config_mysql.sh  
+        ;;
+    centos|rhel)
+        systemctl start mariadb
+        systemctl enable mariadb
+        mysql_secure_installation
+        sudo sh /opt/CaliperServer/config_mysql_else.sh 
+        ;;
+    slse)
+        systemctl start mysql.service
+        systemctl enable mysql.service
+        mysql_secure_installation
+        sudo sh /opt/CaliperServer/config_mysql_else.sh
+        ;;
+    esac     
 }
 
 ## config nginx
@@ -414,7 +443,10 @@ config_nginx()
     then
         sudo cp /etc/nginx/nginx.conf /opt/CaliperServer/nginx_default.conf   
         sudo cp /opt/CaliperServer/nginx.conf /etc/nginx/nginx.conf 
-        sudo cp /opt/CaliperServer/Caliperserver /etc/nginx/sites-available/Caliperserver    
+        sudo cp /opt/CaliperServer/Caliperserver /etc/nginx/sites-available/Caliperserver 
+    else 
+        sudo cp /etc/nginx/nginx.conf /opt/CaliperServer/nginx_default.conf
+        sudo cp /opt/CaliperServer/nginx_else.conf /etc/nginx/nginx.conf   
     fi
 }
 
@@ -422,7 +454,7 @@ config_nginx()
 # Usage: start_nginx
 #start_nginx()
 #{
-#    sudo /etc/init.d/nginx restart 
+#    sudo /usr/sbin/nginx -c /etc/nginx/nginx.conf 
 #    cd /opt/CaliperServer/
 #    sudo uwsgi --ini /opt/CaliperServer/Caliperserver_uwsgi.ini & 
 #}

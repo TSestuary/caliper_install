@@ -20,6 +20,35 @@ main()
 	exit 0
     fi
 
+##         check whiptail
+    which whiptail
+    ret=$?
+    if [ $ret -ne 0 ]
+    then
+        echo "Install whiptail..."
+
+        system_os=`cat /etc/os-release | grep -owP 'ID=\K\S+' | sed 's/"//g'`
+        case $system_os in
+        ubuntu)
+            sudo apt install -y whiptail
+            ;;
+        centos|rhel)
+            sudo yum install -y newt
+            ;;
+        sles)
+            sudo zypper --no-gpg-checks  install -y http://mirror.centos.org/altarch/7/os/aarch64/Packages/newt-0.52.15-4.el7.aarch64.rpm
+            ;;
+        esac
+    fi
+
+    which whiptail
+    ret=$?
+    if [ $ret -ne 0 ]
+    then
+        echo "Please install whiptail first, then run this program again!"
+        exit 0
+    fi
+
 ##	2. tar source code to /tmp
 
     tail -n+$ARCHIVE "$0" | tar xzm -C /tmp
@@ -142,26 +171,34 @@ main()
     case $system_os in
     ubuntu)
 	pkg_type="dpk"
+        order="apt-get"
 	;;
-    centos|redhat|sles)
+    centos|rhel)
 	pkg_type="rpm"
+        order="yum"
 	;;
+    sles)
+        pkg_type="rpm"
+        order="zypper"
     esac
 
     {
-    case $pkg_type in
-    dpk)
-	sudo apt-get update
+    case $order in
+    apt-get)
+	sudo apt-get update > /tmp/caliperserver_tmp.log 2>&1
 	;;
-    rpm)
-	sudo yum update -y
+    yum)
+	sudo yum update -y > /tmp/caliperserver_tmp.log 2>&1
+	;;
+    zypper)
+	sudo zypper update -y > /tmp/caliperserver_tmp.log 2>&1
 	;;
     esac
     } | whiptail --title "CaliperServer installation" --gauge "Updating software info " 7 55 10
 
     write_log "[install_jq]" $log
     {
-        install_pkg jq $pkg_type
+        install_pkg jq $pkg_type $order
         ret=$?
         case $ret in
         0)
@@ -180,7 +217,7 @@ main()
   
     write_log "[install_bc]" $log
     {
-        install_pkg bc $pkg_type
+        install_pkg bc $pkg_type $order
         ret=$?
         case $ret in
         0)

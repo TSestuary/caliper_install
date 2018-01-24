@@ -11,21 +11,23 @@
     {"platform":"python-pip","install":"yes"},
     {"platform":"python-requests","install":"yes"},
     {"platform":"nginx","install":"yes"},
-    {"platform":"mysql-server-5.7","install":"yes"}
+    {"platform":"mysql-devel","install":"yes"},
+    {"platform":"mariadb-server","install":"yes"}
 ],
 
 "redhat_dpk_package":[
     {"platform":"python-pip","install":"yes"},
     {"platform":"python-requests","install":"yes"},
     {"platform":"nginx","install":"yes"},
-    {"platform":"mysql-server-5.7","install":"yes"}
+    {"platform":"mysql-devel","install":"yes"},
+    {"platform":"mariadb-server","install":"yes"}
 ],
 
 "sles_dpk_package":[
-    {"platform":"python-pip","install":"yes"},
     {"platform":"python-requests","install":"yes"},
     {"platform":"nginx","install":"yes"},
-    {"platform":"mysql-server-5.7","install":"yes"}
+    {"platform":"libmysqlclient-devel","install":"yes"},
+    {"platform":"mariadb","install":"yes"}
 ],
 
 "pip_package":[

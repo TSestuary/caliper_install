@@ -223,7 +223,7 @@ install_pkg()
             do
                 if [ "x$3" = "xzypper" ]
                 then
-                    sudo $3 --non-interactive install $1 > $tmp_log 2>&1
+                    sudo $3 install -y $1 > $tmp_log 2>&1
                 else
                     sudo $3 install $1 -y > $tmp_log 2>&1
                 fi 

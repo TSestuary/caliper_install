@@ -82,7 +82,7 @@ uninstall_pkg()
             do
                 if [ "x$order" = "xzypper" ]
                 then
-                    sudo $order --non-interactive remove $pack > $tmp_log 2>&1
+                    sudo $order remove -y $pack > $tmp_log 2>&1
                 else
                     sudo $order autoremove $pack -y > $tmp_log 2>&1
                 fi
