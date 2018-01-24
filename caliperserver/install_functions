@@ -415,7 +415,7 @@ install_all_pip()
 config_mysql()
 {
     system_os=`cat /etc/os-release | grep -owP 'ID=\K\S+' | sed 's/"//g'`
-    case $systemi_os in 
+    case $system_os in 
     ubuntu)
         sudo sh /opt/CaliperServer/config_mysql.sh  
         ;;
