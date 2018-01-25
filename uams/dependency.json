@@ -27,10 +27,11 @@
 ],
 
 "sles_dpk_package":[
-    {"platform":"python-pip","install":"yes"},
+    {"platform":"python-setuptools","install":"yes"},
     {"platform":"python-requests","install":"yes"},
     {"platform":"nginx","install":"yes"},
-    {"platform":"mysql-server-5.7","install":"yes"}
+    {"platform":"memcached","install":"yes"},
+    {"platform":"mariadb","install":"yes"}
 ],
 
 "pip_package":[

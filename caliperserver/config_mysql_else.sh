@@ -1,7 +1,12 @@
-#run_init_sql init.sql
-#sudo mysql --defaults-file=/etc/mysql/debian.cnf < /opt/CaliperServer/init.sql
-#echo $?
-sh /opt/CaliperServer/init.sh
+#!/bin/bash
+#/*USE mysql;*/
+mysql -u root -p <<EOF
+CREATE USER 'caliper'@'%' IDENTIFIED by '123456';
+CREATE DATABASE IF NOT EXISTS caliper;
+GRANT ALL ON caliper.* TO 'caliper'@'%';
+FLUSH PRIVILEGES;
+EOF
+
 #run_init_sql caliperserver.sql
 mysql -ucaliper -p123456 -Dcaliper < /opt/CaliperServer/caliperserver.sql
 echo $?
