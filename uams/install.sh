@@ -168,7 +168,7 @@ main()
     log_install_date
 
 ## 10. install jq package
-    $system_os in
+    case $system_os in
     ubuntu)
         pkg_type="dpk"
         order="apt-get"
