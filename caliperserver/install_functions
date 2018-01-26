@@ -417,21 +417,30 @@ config_mysql()
     system_os=`cat /etc/os-release | grep -owP 'ID=\K\S+' | sed 's/"//g'`
     case $system_os in 
     ubuntu)
-        sudo sh /opt/CaliperServer/config_mysql.sh  
+        #sudo sh /opt/CaliperServer/config_mysql.sh   
+        sudo mysql --defaults-file=/etc/mysql/debian.cnf < /opt/CaliperServer/init.sql
+        mysql -ucaliper -p123456 -Dcaliper < /opt/CaliperServer/caliperserver.sql
         ;;
     centos|rhel)
-        systemctl start mariadb
-        systemctl enable mariadb
-        mysql_secure_installation
-        sudo sh /opt/CaliperServer/config_mysql_else.sh 
+        sudo systemctl start mariadb
+        sudo systemctl enable mariadb
+        #mysql_secure_installation
+        #sudo sh /opt/CaliperServer/config_mysql_else.sh 
+        mysql -uroot -proot < /opt/CaliperServer/init_else.sql
+        mysql -uroot < /opt/CaliperServer/init_else.sql
+        mysql -ucaliper -p123456 -Dcaliper < /opt/CaliperServer/caliperserver.sql
+
         ;;
-    slse)
-        systemctl start mysql.service
-        systemctl enable mysql.service
-        mysql_secure_installation
-        sudo sh /opt/CaliperServer/config_mysql_else.sh
+    sles)
+        sudo systemctl start mysql.service
+        sudo systemctl enable mysql.service
+        #mysql_secure_installation
+        mysql -uroot -proot < /opt/CaliperServer/init_else.sql
+        mysql -uroot < /opt/CaliperServer/init_else.sql
+        mysql -ucaliper -p123456 -Dcaliper < /opt/CaliperServer/caliperserver.sql
         ;;
-    esac     
+    esac
+
 }
 
 ## config nginx

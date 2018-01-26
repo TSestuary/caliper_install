@@ -417,19 +417,27 @@ config_mysql()
     system_os=`cat /etc/os-release | grep -owP 'ID=\K\S+' | sed 's/"//g'`
     case $system_os in
     ubuntu)
-	sudo sh /opt/Uams/config_mysql.sh   
-    	;;
-    centos|rhel)
-        systemctl start mariadb
-        systemctl enable mariadb
-        mysql_secure_installation
-        sudo sh /opt/Uams/config_mysql_else.sh 
+        #sudo sh /opt/Uams/config_mysql.sh   
+        sudo mysql --defaults-file=/etc/mysql/debian.cnf < /opt/Uams/init.sql
+        mysql -uuams -p123456 -Duams < /opt/Uams/uams.sql
         ;;
-    slse)
-        systemctl start mysql.service
-        systemctl enable mysql.service
-        mysql_secure_installation
-        sudo sh /opt/Uams/config_mysql_else.sh 
+    centos|rhel)
+        sudo systemctl start mariadb
+        sudo systemctl enable mariadb
+        #mysql_secure_installation
+        #sudo sh /opt/Uams/config_mysql_else.sh 
+        mysql -uroot -proot < /opt/Uams/init_else.sql
+        mysql -uroot < /opt/Uams/init_else.sql
+        mysql -uuams -p123456 -Duams < /opt/Uams/uams.sql
+
+        ;;
+    sles)
+        sudo systemctl start mysql.service
+        sudo systemctl enable mysql.service
+        #mysql_secure_installation
+        mysql -uroot -proot < /opt/Uams/init_else.sql
+        mysql -uroot < /opt/Uams/init_else.sql
+        mysql -uuams -p123456 -Duams < /opt/Uams/uams.sql
         ;;
     esac
 }
