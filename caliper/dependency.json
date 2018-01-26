@@ -25,6 +25,7 @@
 
 "centos_dpk_package":[
     {"platform":"sshpass","install":"yes"},
+    {"platform":"psmisc","install":"yes"},
     {"platform":"ethtool","install":"yes"},
     {"platform":"gcc","install":"yes"},
     {"platform":"gcc-c++","install":"yes"},
@@ -46,6 +47,7 @@
 
 "redhat_dpk_package":[
     {"platform":"sshpass","install":"yes"},
+    {"platform":"psmisc","install":"yes"},
     {"platform":"ethtool","install":"yes"},
     {"platform":"gcc","install":"yes"},
     {"platform":"gcc-c++","install":"yes"},
@@ -67,6 +69,7 @@
 
 "sles_dpk_package":[
     {"platform":"sshpass","install":"yes"},
+    {"platform":"psmisc","install":"yes"},
     {"platform":"ethtool","install":"yes"},
     {"platform":"gcc","install":"yes"},
     {"platform":"gcc-c++","install":"yes"},
