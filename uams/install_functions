@@ -341,7 +341,7 @@ install_pip()
     tmp_log="/tmp/uams_tmp.log"
     packss=$1
     pack=${packss%==*}
-    pip show $pack > $tmp_log 2>&1
+    LC_ALL=C pip show $pack > $tmp_log 2>&1
     check=`grep -c $pack $tmp_log`
     if [ $check -eq 0 ]
     then
