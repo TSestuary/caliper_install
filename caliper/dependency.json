@@ -18,6 +18,7 @@
     {"platform":"autoconf","install":"yes"},
     {"platform":"make","install":"yes"},
     {"platform":"openssh-server","install":"yes"},
+    {"platform":"libtool","install":"yes"},
     {"platform":"python-numpy","install":"yes"},
     {"platform":"libssl-dev","install":"yes"},
     {"platform":"libffi-dev","install":"yes"}
