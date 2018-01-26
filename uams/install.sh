@@ -13,12 +13,12 @@ main()
 
 ##	1. check user
 
-    user=`whoami`
-    if [ "$user" = "root" ]
-    then
-        echo "Please run this program as normal user!"
-	exit 0
-    fi
+#    user=`whoami`
+#    if [ "$user" = "root" ]
+#    then
+#        echo "Please run this program as normal user!"
+#	exit 0
+#    fi
 
 ##         check whiptail
     which whiptail
